@@ -1,52 +1,38 @@
-fun compressImage(
-    dataArray: Array<Array<String>>,
-): List<Pair<String,Int>>{
+fun compressImage(dataArray: Array<Array<String>>): List<Pair<String, Int>> {
+    val result = mutableListOf<Pair<String, Int>>()
 
-    val numberOfRows= dataArray.size
-    val myRows = splitMatrixRows(dataArray, numberOfRows)
-    val result = mutableListOf<Pair<String,Int>>()
-
-    myRows.forEach{ row->
-        val rowToCompress = row.joinToString("")
-        val compressedRow = RLE(rowToCompress)
-        result += compressedRow
+    for (row in dataArray) {
+        result += rleRow(row)
     }
+
     return result
 }
 
-fun splitMatrixRows(
-    dataArray: Array<Array<String>>,
-    numberOfRows: Int
-) : List<Array<String>>{
+fun rleRow(row: Array<String>): List<Pair<String, Int>> {
+    val result = mutableListOf<Pair<String, Int>>()
 
-    val result = mutableListOf<Array<String>>()
-
-    for (i in 0 until numberOfRows){
-        result.add(dataArray[i])
-    }
-    return result
-}
-
-fun RLE(text: String): List<Pair<String,Int>>{
-
-    var number = 0
     var last: Char? = null
-    val result = mutableListOf<Pair<String,Int>>()
+    var count = 0
 
-    text.forEach { letter->
-        if( last == null){
-            last = letter
-            number = 1
-        } else if (letter == last) {
-            number++
+    for (cell in row) {
+
+        val char = cell[0]
+
+        if (last == null) {
+            last = char
+            count = 1
+        } else if (char == last) {
+            count++
         } else {
-            result += Pair(last.toString(), number)
-            last = letter
-            number = 1
+            result.add(last.toString() to count)
+            last = char
+            count = 1
         }
-
     }
-    result += Pair(last.toString(), number)
-    return result
 
+    if (last != null) {
+        result.add(last.toString() to count)
+    }
+
+    return result
 }
