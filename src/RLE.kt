@@ -9,6 +9,7 @@ fun compressImage(dataArray: Array<Array<String>>): List<Pair<String, Int>> {
 }
 
 fun rleRow(row: Array<String>): List<Pair<String, Int>> {
+
     val result = mutableListOf<Pair<String, Int>>()
 
     var last: Char? = null

@@ -4,7 +4,6 @@ fun main(){
         arrayOf("B", "R", "R", "B"),
         arrayOf("Y", "Y", "W", "R")
     )
-    val colorGridSize = colorGrid.size
     val result = compressImage(colorGrid)
     result.forEach{ print(it) }
 
